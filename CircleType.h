@@ -21,5 +21,38 @@ public:
 
     void setCenter(double x, double y) {
         setPoint(x, y);
-        radius = calculateRadius();  // to recalculate radius if needed
+        radius = calculateRadius();  // Recalculate radius if needed
     }
+
+    void setPointOnCircumference(double px, double py) {
+        pointOnCircumference.setPoint(px, py);
+        radius = calculateRadius();  // Recalculate radius
+    }
+
+    double getRadius() const { return radius; }
+
+    double getCircumference() const {
+        return 2 * M_PI * radius;
+    }
+
+    double getArea() const {
+        return M_PI * radius * radius;
+    }
+
+    void printCircle() const {
+        printPoint();
+        pointOnCircumference.printPoint();
+        cout << "Radius: " << radius << endl;
+        cout << "Circumference: " << getCircumference() << endl;
+        cout << "Area: " << getArea() << endl;
+    }
+
+private:
+    double calculateRadius() const {
+        double dx = pointOnCircumference.getX() - getX();
+        double dy = pointOnCircumference.getY() - getY();
+        return sqrt(dx * dx + dy * dy);
+    }
+};
+
+#endif

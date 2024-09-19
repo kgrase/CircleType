@@ -9,24 +9,50 @@
 #endif
 
 class CircleType : public PointType {
-protected:
+private:
     double radius;
+    PointType pointOnCircumference;
 
 public:
-    CircleType(double r = 0.0, double x = 0.0, double y = 0.0) : PointType(x, y) {
-        radius = (r >= 0) ? r : 0;
+    CircleType(double x = 0.0, double y = 0.0, double px = 0.0, double py = 0.0)
+        : PointType(x, y), pointOnCircumference(px, py) {
+        radius = calculateRadius();
     }
 
-    void setRadius(double r) {
-        radius = (r >= 0) ? r : 0;
+    void setCenter(double x, double y) {
+        setPoint(x, y);
+        radius = calculateRadius();  // Recalculate radius if needed
+    }
+
+    void setPointOnCircumference(double px, double py) {
+        pointOnCircumference.setPoint(px, py);
+        radius = calculateRadius();  // Recalculate radius
     }
 
     double getRadius() const { return radius; }
 
-    double area() const { return M_PI * radius * radius; }
+    double getCircumference() const {
+        return 2 * M_PI * radius;
+    }
 
-    double circumference() const { return 2 * M_PI * radius; }
+    double getArea() const {
+        return M_PI * radius * radius;
+    }
 
-   
+    void printCircle() const {
+        printPoint();
+        pointOnCircumference.printPoint();
+        cout << "Radius: " << radius << endl;
+        cout << "Circumference: " << getCircumference() << endl;
+        cout << "Area: " << getArea() << endl;
+    }
+
+private:
+    double calculateRadius() const {
+        double dx = pointOnCircumference.getX() - getX();
+        double dy = pointOnCircumference.getY() - getY();
+        return sqrt(dx * dx + dy * dy);
+    }
+};
 
 #endif
